@@ -1,10 +1,25 @@
 import "./App.css";
 import responseMovies from "./mocks/results-response.json";
 import noResults from "./mocks/noresults.json";
-import { ListOfMovies } from "./components/Movies";
+import { Movies } from "./components/Movies";
+
+export function useMovies (){
+  const movies = responseMovies.Search
+
+  const mappedMovies = movies?.map(movie =>({
+    id: movie.imdbID,
+    title: movie.Title,
+    year: movie.Year,
+    poster: movie.Poster
+  }))
+  return {movies: mappedMovies}
+}
+
 
 function App() {
-  const movies = responseMovies.Search;
+  const {movies: mappedMovies} = useMovies()
+
+
   return (
     <>
       <div className="page">
@@ -17,7 +32,7 @@ function App() {
           </form>
         </header>
         <main>
-          <ListOfMovies movies={movies}/>
+          <Movies movies={mappedMovies}/>
         </main>
       </div>
     </>
